@@ -12,5 +12,8 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('information.index');
 });
+
+//Information Controller
+Route::resource('information','InformationController');
