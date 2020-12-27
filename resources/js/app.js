@@ -14,6 +14,9 @@ Vue.component('create', require('./components/Create').default);
 Vue.component('index',require('./components/Index').default);
 Vue.component('edit',require('./components/Edit').default);
 
+//Import axios
+const axios = require('axios');
+
 //Vue Object
 const  app = new Vue({
     el:'#app',
