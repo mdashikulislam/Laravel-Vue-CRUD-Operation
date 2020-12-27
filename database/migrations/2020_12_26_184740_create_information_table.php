@@ -15,7 +15,15 @@ class CreateInformationTable extends Migration
     {
         Schema::create('information', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('fname');
+            $table->string('lname');
+            $table->string('email');
+            $table->integer('phone');
+            $table->string('gender');
+            $table->string('hobbies');
+            $table->text('bio');
             $table->timestamps();
+            $table->timestamp('deleted_at')->nullable();
         });
     }
 
