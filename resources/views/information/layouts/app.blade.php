@@ -16,6 +16,7 @@
         </nav>
     </section>
     <div class="container mt-3" id="app">
+        <vue-progress-bar></vue-progress-bar>
         <div class="row justify-content-center">
             @section('main-content')
             @show

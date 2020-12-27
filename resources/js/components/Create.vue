@@ -77,8 +77,19 @@ export default {
     },
     methods:{
         addNewInfo(){
+            this.$Progress.start();
             this.form.post('/api/information').then(()=>{
                 // console.log(response.data);
+
+                this.$Progress.finish();
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Information store successfully',
+                    imageUrl: 'https://unsplash.it/400/200',
+                    imageWidth: 400,
+                    imageHeight: 200,
+                    imageAlt: 'Custom image',
+                })
                 this.form.reset();
             }).catch(()=>{
                 // console.log(errors);
