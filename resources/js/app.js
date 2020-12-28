@@ -1,7 +1,9 @@
 //Additional File
 require('./bootstrap')
 window.Vue = require('vue');
-
+//Import JQuery
+import JQuery from 'jquery'
+window.$ = window.JQuery = JQuery;
 //V-Form
 import { Form, HasError, AlertError } from 'vform'
 window.Form = Form;

@@ -73,7 +73,6 @@ export default {
             this.$Progress.start();
             this.form.post('/api/information').then(()=>{
                 // console.log(response.data);
-
                 this.$Progress.finish();
                 Swal.fire({
                     title: 'Success!',

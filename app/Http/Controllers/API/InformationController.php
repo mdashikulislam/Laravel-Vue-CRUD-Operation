@@ -93,4 +93,21 @@ class InformationController extends Controller
     {
         return response()->json(Information::findOrFail($id)->delete());
     }
+
+    public function search(Request $request)
+    {
+        $item = $request->item;
+//        $search = Information::where(function ($query) use ($item){
+//            $query->where('fname','LIKE','%$item%')
+//                ->orWhere('lname','LIKE','%$item%')
+//                ->get();
+//        });
+        $search = Information::where('fname','LIKE','%' . $item . '%')
+            ->orWhere('lname','LIKE','%' . $item . '%')
+            ->orWhere('email','LIKE','%' . $item . '%')
+            ->orWhere('phone','LIKE','%' . $item . '%')
+            ->get();
+
+        return response()->json($search);
+    }
 }
