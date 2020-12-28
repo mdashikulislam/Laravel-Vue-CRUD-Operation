@@ -5,13 +5,15 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Information;
 use Illuminate\Http\Request;
+use Symfony\Polyfill\Intl\Idn\Info;
 
 class InformationController extends Controller
 {
 
     public function index()
     {
-        return 'ok';
+        $info = Information::all();
+        return response()->json($info);
     }
 
 
@@ -43,11 +45,11 @@ class InformationController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
-        //
+        return response()->json(Information::findOrFail($id));
     }
 
     /**
@@ -59,17 +61,53 @@ class InformationController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request,[
+            'fname'=>['required','string','max:30'],
+            'lname'=>['required','string','max:30'],
+            'email'=>['required','email','max:32'],
+            'phone'=>['required','regex:/(01)[0-9]{9}/','max:11'],
+            'gender'=>['required'],
+            'hobbies'=>['required','max:100'],
+            'bio'=>['required']
+        ]);
+        $info = Information::findOrFail($id);
+        $info->fname = $request->fname;
+        $info->lname = $request->lname;
+        $info->email = $request->email;
+        $info->phone = $request->phone;
+        $info->gender = $request->gender;
+        $info->hobbies = $request->hobbies;
+        $info->hobbies = $request->hobbies;
+        $info->bio = $request->bio;
+        $info->save();
+        return  response()->json($info);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
-        //
+        return response()->json(Information::findOrFail($id)->delete());
+    }
+
+    public function search(Request $request)
+    {
+        $item = $request->item;
+//        $search = Information::where(function ($query) use ($item){
+//            $query->where('fname','LIKE','%$item%')
+//                ->orWhere('lname','LIKE','%$item%')
+//                ->get();
+//        });
+        $search = Information::where('fname','LIKE','%' . $item . '%')
+            ->orWhere('lname','LIKE','%' . $item . '%')
+            ->orWhere('email','LIKE','%' . $item . '%')
+            ->orWhere('phone','LIKE','%' . $item . '%')
+            ->get();
+
+        return response()->json($search);
     }
 }

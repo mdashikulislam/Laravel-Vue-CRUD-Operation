@@ -18,7 +18,7 @@ class CreateInformationTable extends Migration
             $table->string('fname');
             $table->string('lname');
             $table->string('email');
-            $table->integer('phone');
+            $table->string('phone');
             $table->string('gender');
             $table->string('hobbies');
             $table->text('bio');

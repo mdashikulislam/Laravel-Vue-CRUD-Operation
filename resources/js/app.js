@@ -1,7 +1,9 @@
 //Additional File
 require('./bootstrap')
 window.Vue = require('vue');
-
+//Import JQuery
+import JQuery from 'jquery'
+window.$ = window.JQuery = JQuery;
 //V-Form
 import { Form, HasError, AlertError } from 'vform'
 window.Form = Form;
@@ -16,6 +18,20 @@ Vue.component('edit',require('./components/Edit').default);
 
 //Import axios
 const axios = require('axios');
+
+//Sweet Alert 2
+import Swal from 'sweetalert2'
+window.Swal = Swal;
+
+//Vue ProgressBar
+import VueProgressBar  from 'vue-progressbar';
+const option = {
+    color: 'rgb(255, 0, 0)',
+    failedColor: 'red',
+    height: '3px',
+}
+Vue.use(VueProgressBar,option);
+
 
 //Vue Object
 const  app = new Vue({
