@@ -12,10 +12,9 @@ class InformationController extends Controller
 
     public function index()
     {
-        $info = Information::all();
+        $info = Information::orderByDesc('id')->paginate(10);
         return response()->json($info);
     }
-
 
     public function store(Request $request)
     {
@@ -94,20 +93,13 @@ class InformationController extends Controller
         return response()->json(Information::findOrFail($id)->delete());
     }
 
-    public function search(Request $request)
+    public function search($searchIttem)
     {
-        $item = $request->item;
-//        $search = Information::where(function ($query) use ($item){
-//            $query->where('fname','LIKE','%$item%')
-//                ->orWhere('lname','LIKE','%$item%')
-//                ->get();
-//        });
-        $search = Information::where('fname','LIKE','%' . $item . '%')
-            ->orWhere('lname','LIKE','%' . $item . '%')
-            ->orWhere('email','LIKE','%' . $item . '%')
-            ->orWhere('phone','LIKE','%' . $item . '%')
-            ->get();
-
+        $search = Information::where('fname','LIKE','%' . $searchIttem . '%')
+            ->orWhere('lname','LIKE','%' . $searchIttem . '%')
+            ->orWhere('email','LIKE','%' . $searchIttem . '%')
+            ->orWhere('phone','LIKE','%' . $searchIttem . '%')
+            ->paginate(10);
         return response()->json($search);
     }
 }
