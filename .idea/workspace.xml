@@ -2,15 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="862ac902-e231-4026-a7a6-4ae3b6fa1a28" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/database/factories/InformationFactory.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/API/InformationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/API/InformationController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/js/components/Create.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Create.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/components/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/Index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/information/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/information/create.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/information/edit.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/information/edit.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/information/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/information/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/information/layouts/app.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/information/layouts/app.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -182,7 +180,8 @@
       <workItem from="1608998458397" duration="11032000" />
       <workItem from="1609077663889" duration="2422000" />
       <workItem from="1609087854668" duration="11548000" />
-      <workItem from="1609181134411" duration="11186000" />
+      <workItem from="1609181134411" duration="12767000" />
+      <workItem from="1609276192284" duration="8161000" />
     </task>
     <servers />
   </component>

@@ -27,6 +27,9 @@
             </tr>
             </tbody>
         </table>
+        <div class="text-center">
+            <button type="button" @click="searchActive ? loadSearchActiveMore() : loadMore()" v-show="buttonExist" class="btn btn-success"><i class="fa fa-arrow-down fa-fw"></i>Load More</button>
+        </div>
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -73,8 +76,6 @@
                                 <textarea id="bio" v-model="form.bio" type="text"  disabled class="form-control"></textarea>
                             </div>
                         </div>
-
-
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -99,14 +100,57 @@ export default {
                 gender:'',
                 hobbies:'',
                 bio:'',
-            })
+            }),
+            buttonExist : true,
+            currentPage: 0,
+            searchActive:false
         }
     },
     methods:{
         getInformation(){
-            axios.get('/api/information').then((data)=>{
-                this.infos = data.data;
+            axios.get('/api/information').then((response)=>{
+                this.infos = response.data.data;
+                this.currentPage += response.data.current_page;
+                if(response.data.current_page < response.data.last_page){
+                    this.buttonExist = true;
+                }else{
+                    this.buttonExist = false;
+                }
             }).catch(()=>{});
+        },
+        loadMore(){
+            this.$Progress.start();
+            axios.get('/api/information?page='+(this.currentPage+1)).then((response)=>{
+                for (var i = 0; i < response.data.data.length;i++){
+                    this.infos.push(response.data.data[i]);
+                }
+                this.currentPage += 1;
+                if(response.data.current_page < response.data.last_page){
+                    this.buttonExist = true;
+                }else{
+                    this.buttonExist = false;
+                }
+                this.$Progress.finish();
+            }).catch(()=>{
+                this.$Progress.finish();
+            });
+        },
+        loadSearchActiveMore(){
+            this.$Progress.start();
+            axios.get('/api/search/'+this.search+'?page='+(this.currentPage+1)).then((response)=>{
+                for (var i = 0; i < response.data.data.length;i++){
+                    this.infos.push(response.data.data[i]);
+                }
+                this.currentPage += 1;
+                if(response.data.current_page < response.data.last_page){
+                    this.buttonExist = true;
+                }else{
+                    this.buttonExist = false;
+                }
+                this.$Progress.finish();
+            }).catch(()=>{
+                this.$Progress.finish();
+            });
         },
         deleteUser(id){
             Swal.fire({
@@ -136,17 +180,28 @@ export default {
         },
         searchItem(){
             if (this.search.length === 0){
+                this.searchActive = false;
+                this.currentPage = 1;
+                this.buttonExist = true;
                 this.loadAllInformation();
             }else{
-                axios.post('/api/search',{item:this.search}).then((response)=>{
-                    this.infos = response.data;
+                this.searchActive = true;
+                axios.get('/api/search/'+this.search).then((response)=>{
+                    this.infos = response.data.data;
+                    this.currentPage = response.data.current_page;
+                    if(response.data.current_page < response.data.last_page){
+                        this.buttonExist = true;
+                    }else{
+                        this.buttonExist = false;
+                    }
+
                 }).catch();
             }
 
         },
         loadAllInformation(){
             axios.get('/api/information').then((response)=>{
-                this.infos = response.data;
+                this.infos = response.data.data;
             }).catch((error)=>{
 
             });

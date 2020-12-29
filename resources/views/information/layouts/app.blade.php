@@ -22,6 +22,11 @@
             @show
         </div>
     </div>
+    <section class="mt-2">
+        <nav class="navbar navbar-dark bg-primary justify-content-center">
+            <h2 style="color: white;padding-top: 20px;">Md Ashikul Islam</h2>
+        </nav>
+    </section>
 <script src="{{asset('js/app.js')}}"></script>
 </body>
 </html>

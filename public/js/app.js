@@ -2268,6 +2268,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2281,19 +2282,73 @@ __webpack_require__.r(__webpack_exports__);
         gender: '',
         hobbies: '',
         bio: ''
-      })
+      }),
+      buttonExist: true,
+      currentPage: 0,
+      searchActive: false
     };
   },
   methods: {
     getInformation: function getInformation() {
       var _this = this;
 
-      axios.get('/api/information').then(function (data) {
-        _this.infos = data.data;
+      axios.get('/api/information').then(function (response) {
+        _this.infos = response.data.data;
+        _this.currentPage += response.data.current_page;
+
+        if (response.data.current_page < response.data.last_page) {
+          _this.buttonExist = true;
+        } else {
+          _this.buttonExist = false;
+        }
       })["catch"](function () {});
     },
-    deleteUser: function deleteUser(id) {
+    loadMore: function loadMore() {
       var _this2 = this;
+
+      this.$Progress.start();
+      axios.get('/api/information?page=' + (this.currentPage + 1)).then(function (response) {
+        for (var i = 0; i < response.data.data.length; i++) {
+          _this2.infos.push(response.data.data[i]);
+        }
+
+        _this2.currentPage += 1;
+
+        if (response.data.current_page < response.data.last_page) {
+          _this2.buttonExist = true;
+        } else {
+          _this2.buttonExist = false;
+        }
+
+        _this2.$Progress.finish();
+      })["catch"](function () {
+        _this2.$Progress.finish();
+      });
+    },
+    loadSearchActiveMore: function loadSearchActiveMore() {
+      var _this3 = this;
+
+      this.$Progress.start();
+      axios.get('/api/search/' + this.search + '?page=' + (this.currentPage + 1)).then(function (response) {
+        for (var i = 0; i < response.data.data.length; i++) {
+          _this3.infos.push(response.data.data[i]);
+        }
+
+        _this3.currentPage += 1;
+
+        if (response.data.current_page < response.data.last_page) {
+          _this3.buttonExist = true;
+        } else {
+          _this3.buttonExist = false;
+        }
+
+        _this3.$Progress.finish();
+      })["catch"](function () {
+        _this3.$Progress.finish();
+      });
+    },
+    deleteUser: function deleteUser(id) {
+      var _this4 = this;
 
       Swal.fire({
         title: 'Are you sure?',
@@ -2305,38 +2360,47 @@ __webpack_require__.r(__webpack_exports__);
         confirmButtonText: 'Yes, delete it!'
       }).then(function (result) {
         if (result.isConfirmed) {
-          _this2.$Progress.start();
+          _this4.$Progress.start();
 
           axios["delete"]('/api/information/' + id).then(function () {
-            _this2.getInformation();
+            _this4.getInformation();
 
             Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
 
-            _this2.$Progress.finish();
+            _this4.$Progress.finish();
           })["catch"](function (error) {
-            _this2.$Progress.finish();
+            _this4.$Progress.finish();
           });
         }
       });
     },
     searchItem: function searchItem() {
-      var _this3 = this;
+      var _this5 = this;
 
       if (this.search.length === 0) {
+        this.searchActive = false;
+        this.currentPage = 1;
+        this.buttonExist = true;
         this.loadAllInformation();
       } else {
-        axios.post('/api/search', {
-          item: this.search
-        }).then(function (response) {
-          _this3.infos = response.data;
+        this.searchActive = true;
+        axios.get('/api/search/' + this.search).then(function (response) {
+          _this5.infos = response.data.data;
+          _this5.currentPage = response.data.current_page;
+
+          if (response.data.current_page < response.data.last_page) {
+            _this5.buttonExist = true;
+          } else {
+            _this5.buttonExist = false;
+          }
         })["catch"]();
       }
     },
     loadAllInformation: function loadAllInformation() {
-      var _this4 = this;
+      var _this6 = this;
 
       axios.get('/api/information').then(function (response) {
-        _this4.infos = response.data;
+        _this6.infos = response.data.data;
       })["catch"](function (error) {});
     },
     viewItem: function viewItem(info) {
@@ -43650,6 +43714,33 @@ var render = function() {
           ])
         }),
         0
+      )
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "text-center" }, [
+      _c(
+        "button",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.buttonExist,
+              expression: "buttonExist"
+            }
+          ],
+          staticClass: "btn btn-success",
+          attrs: { type: "button" },
+          on: {
+            click: function($event) {
+              _vm.searchActive ? _vm.loadSearchActiveMore() : _vm.loadMore()
+            }
+          }
+        },
+        [
+          _c("i", { staticClass: "fa fa-arrow-down fa-fw" }),
+          _vm._v("Load More")
+        ]
       )
     ]),
     _vm._v(" "),
